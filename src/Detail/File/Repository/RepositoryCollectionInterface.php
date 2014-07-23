@@ -1,0 +1,65 @@
+<?php
+
+namespace Detail\File\Repository;
+
+use Countable;
+use ArrayAccess;
+use IteratorAggregate;
+
+interface RepositoryCollectionInterface extends Countable, ArrayAccess, IteratorAggregate
+{
+    /**
+     * Register a repository in the collection.
+     *
+     * @param string $name
+     * @param RepositoryInterface $repository
+     * @return void
+     */
+    public function add($name, RepositoryInterface $repository);
+
+    /**
+     * Check if a repository is registered in the collection.
+     *
+     * @param string|RepositoryInterface $nameOrRepository
+     * @return boolean
+     */
+    public function has($nameOrRepository);
+
+    /**
+     * Retrieve a repository from the collection.
+     *
+     * @param string|RepositoryInterface $nameOrRepository
+     * @return RepositoryInterface
+     */
+    public function get($nameOrRepository);
+
+    /**
+     * Retrieve all repositories from the collection.
+     *
+     * @return RepositoryInterface[]
+     */
+    public function getAll();
+
+    /**
+     * Retrieve a new collection sub-collection.
+     *
+     * @param string|string[]|RepositoryInterface|RepositoryInterface[] $namesOrRepositories
+     * @return RepositoryCollectionInterface
+     */
+    public function getCollection($namesOrRepositories);
+
+    /**
+     * Remove a repository from the collection.
+     *
+     * @param string|RepositoryInterface $nameOrRepository
+     * @return void
+     */
+    public function remove($nameOrRepository);
+
+    /**
+     * Clear the collection (remove all repositories).
+     *
+     * @return void
+     */
+    public function removeAll();
+}

@@ -2,20 +2,20 @@
 
 namespace Detail\File\Repository;
 
-use Detail\File\Filesystem\FilesystemInterface;
+use Detail\File\Storage\StorageInterface;
 
 class Repository implements
     RepositoryInterface
 {
-    protected $filesystem;
+    protected $storage;
 
-    public function __construct(FilesystemInterface $filesystem)
+    public function __construct(StorageInterface $storage)
     {
-        $this->filesystem = $filesystem;
+        $this->storage = $storage;
     }
 
-    protected function getFilesystem()
+    protected function getStorage()
     {
-        return $this->filesystem;
+        return $this->storage;
     }
 }

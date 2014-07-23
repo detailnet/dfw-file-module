@@ -1,11 +1,11 @@
 <?php
 
-namespace Detail\File\Filesystem;
+namespace Detail\File\Storage;
 
 use Gaufrette\Filesystem;
 
-class GaufretteFilesystem implements
-    FilesystemInterface
+class GaufretteStorage implements
+    StorageInterface
 {
     protected $filesystem;
 
