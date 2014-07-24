@@ -53,7 +53,7 @@ class RepositoryCollection implements
      */
     public function has($nameOrRepository)
     {
-        $this->offsetExists($nameOrRepository);
+        return $this->offsetExists($nameOrRepository);
     }
 
     /**
@@ -61,7 +61,7 @@ class RepositoryCollection implements
      */
     public function get($nameOrRepository)
     {
-        $this->offsetGet($nameOrRepository);
+        return $this->offsetGet($nameOrRepository);
     }
 
     /**
@@ -75,16 +75,18 @@ class RepositoryCollection implements
     /**
      * {@inheritdoc}
      */
-    public function getCollection($namesOrRepositories)
+    public function getCollection($names)
     {
-        if (!is_array($namesOrRepositories)) {
-            $namesOrRepositories = array($namesOrRepositories);
+        if (!is_array($names)) {
+            $names = array($names);
         }
 
         $repositories = array();
 
-        foreach ($namesOrRepositories as $nameOrRepository) {
-            $repositories = $this->get($nameOrRepository);
+        foreach ($names as $name) {
+            $this->assertNameIsString($name);
+
+            $repositories[$name] = $this->get($name);
         }
 
         return new self($repositories);

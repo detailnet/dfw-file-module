@@ -9,8 +9,8 @@ interface RepositoryInterface
     /**
      * Get item.
      *
-     * @param string|Id $id Item ID
-     * @param string|Revision $revision Revision
+     * @param string $id Item ID
+     * @param string $revision Revision
      * @return ItemInterface
      */
     public function getItem($id, $revision = null);
@@ -20,7 +20,7 @@ interface RepositoryInterface
      *
      * A new (first) revision will be created.
      *
-     * @param string|Id $id Item ID
+     * @param string $id Item ID
      * @param \SplFileInfo|string Path to source file
      * @param array $meta Meta data
      * @param bool $createDerivatives Create derivatives?
@@ -35,7 +35,7 @@ interface RepositoryInterface
      *
      * A new (first) revision will be created.
      *
-     * @param string|Id $id Item ID
+     * @param string $id Item ID
      * @param string $contents Source file contents
      * @param array $meta Meta data
      * @param bool $createDerivatives Create derivatives?
@@ -50,7 +50,7 @@ interface RepositoryInterface
      *
      * All revisions are kept, but the most current file is made unaccessible.
      *
-     * @param string|Id $id Item ID
+     * @param string $id Item ID
      * @return void
      */
     public function deleteItem($id);
@@ -60,7 +60,7 @@ interface RepositoryInterface
      *
      * All revision are destroyed.
      *
-     * @param string|Id $id Item ID
+     * @param string $id Item ID
      * @return void
      */
     public function destroyItem($id);
@@ -71,9 +71,9 @@ interface RepositoryInterface
      * Create an exact copy of the item under a different ID.
      * Optionally, all but the latest revision can be skipped.
      *
-     * @param string|Id $id Item ID
-     * @param string|Id $targetId Target item ID
-     * @param bool $withRevisions Wether or not to copy the revisions
+     * @param string $id Item ID
+     * @param string $targetId Target item ID
+     * @param bool $withRevisions Whether or not to copy the revisions
      * @return ItemInterface Copy of the item
      */
     public function copyItem($id, $targetId, $withRevisions = true);
@@ -85,7 +85,7 @@ interface RepositoryInterface
      * No new revision is created.
      * By default, derivatives with type "manual" are recreated, too.
      *
-     * @param string|Id $id Item ID
+     * @param string $id Item ID
      * @param array $meta Meta data
      * @param bool|array $createDerivatives Create derivatives?
      * @param bool $force Force refresh (otherwise derivatives are skipped when already existing)

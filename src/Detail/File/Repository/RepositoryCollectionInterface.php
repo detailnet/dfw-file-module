@@ -43,10 +43,10 @@ interface RepositoryCollectionInterface extends Countable, ArrayAccess, Iterator
     /**
      * Retrieve a new collection sub-collection.
      *
-     * @param string|string[]|RepositoryInterface|RepositoryInterface[] $namesOrRepositories
+     * @param string|string[] $names
      * @return RepositoryCollectionInterface
      */
-    public function getCollection($namesOrRepositories);
+    public function getCollection($names);
 
     /**
      * Remove a repository from the collection.
