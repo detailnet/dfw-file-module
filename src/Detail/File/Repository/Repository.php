@@ -23,6 +23,14 @@ class Repository implements
     /**
      * {@inheritdoc}
      */
+    public function hasItem($id, $revision = null)
+    {
+        // TODO: Implement hasItem() method.
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getItem($id, $revision = null)
     {
         // TODO: Implement getItem() method.

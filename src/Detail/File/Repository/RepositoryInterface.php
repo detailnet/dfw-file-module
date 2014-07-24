@@ -7,7 +7,16 @@ use Detail\File\Item\ItemInterface;
 interface RepositoryInterface
 {
     /**
-     * Get item.
+     * Check if an item exists in the repository.
+     *
+     * @param string $id Item ID
+     * @param string $revision Revision
+     * @return ItemInterface
+     */
+    public function hasItem($id, $revision = null);
+
+    /**
+     * Retrieve an item from the repository.
      *
      * @param string $id Item ID
      * @param string $revision Revision
@@ -16,7 +25,7 @@ interface RepositoryInterface
     public function getItem($id, $revision = null);
 
     /**
-     * Create item.
+     * Create an item in the repository.
      *
      * A new (first) revision will be created.
      *
@@ -31,7 +40,7 @@ interface RepositoryInterface
     );
 
     /**
-     * Create item from contents.
+     * Create an item in the repository directly from file contents.
      *
      * A new (first) revision will be created.
      *
