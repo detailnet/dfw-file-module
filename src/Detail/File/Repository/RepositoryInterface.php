@@ -25,6 +25,51 @@ interface RepositoryInterface
     public function getItem($id, $revision = null);
 
     /**
+     * Retrieve an item's file contents.
+     *
+     * @param string $id Item ID
+     * @param string $revision Revision
+     * @return string
+     */
+    public function getItemContents($id, $revision = null);
+
+    /**
+     * Retrieve an item's meta data.
+     *
+     * @param string $id Item ID
+     * @param string $revision Revision
+     * @return array
+     */
+    public function getItemMeta($id, $revision = null);
+
+    /**
+     * Retrieve an item's name.
+     *
+     * @param string $id Item ID
+     * @param string $revision Revision
+     * @return string
+     */
+    public function getItemName($id, $revision = null);
+
+    /**
+     * Retrieve an item's mime type.
+     *
+     * @param string $id Item ID
+     * @param string $revision Revision
+     * @return string
+     */
+    public function getItemType($id, $revision = null);
+
+    /**
+     * Retrieve an item's file size.
+     *
+     * @param string $id Item ID
+     * @param string $revision Revision
+     * @return int
+     */
+    public function getItemSize($id, $revision = null);
+
+    /**
      * Create an item in the repository.
      *
      * A new (first) revision will be created.

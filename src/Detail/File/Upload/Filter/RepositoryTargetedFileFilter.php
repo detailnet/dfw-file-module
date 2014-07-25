@@ -2,6 +2,7 @@
 
 namespace Detail\File\Upload\Filter;
 
+use Detail\File\Item\ItemInterface;
 use Detail\File\Repository\RepositoryInterface;
 
 use Zend\Filter\Exception as FilterException;
@@ -42,6 +43,7 @@ class RepositoryTargetedFileFilter extends AbstractRenameFileFilter
 
     /**
      * {@inheritdoc}
+     * @return ItemInterface
      */
     protected function createFile($sourceFile, $targetFile, array $uploadData)
     {

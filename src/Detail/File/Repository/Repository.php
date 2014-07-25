@@ -39,9 +39,49 @@ class Repository implements
     /**
      * {@inheritdoc}
      */
+    public function getItemContents($id, $revision = null)
+    {
+        return $this->getStorage()->getItemContents($id, $revision);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getItemMeta($id, $revision = null)
+    {
+        return $this->getStorage()->getItemMeta($id, $revision);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getItemName($id, $revision = null)
+    {
+        return $this->getStorage()->getItemName($id, $revision);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getItemType($id, $revision = null)
+    {
+        return $this->getStorage()->getItemType($id, $revision);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getItemSize($id, $revision = null)
+    {
+        return $this->getStorage()->getItemSize($id, $revision);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function createItem($id, $file, array $meta = array(), $createDerivatives = true)
     {
-        // TODO: Implement createItem() method.
+        return $this->getStorage()->createItem($this, $id, $file, $meta);
     }
 
     /**
@@ -49,7 +89,7 @@ class Repository implements
      */
     public function createItemFromContents($id, $contents, array $meta = array(), $createDerivatives = true)
     {
-        // TODO: Implement createItemFromContents() method.
+        return $this->getStorage()->createItemFromContents($this, $id, $contents, $meta);
     }
 
     /**

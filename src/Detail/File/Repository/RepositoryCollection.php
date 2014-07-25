@@ -83,10 +83,10 @@ class RepositoryCollection implements
 
         $repositories = array();
 
-        foreach ($names as $name) {
+        foreach ($names as $alias => $name) {
             $this->assertNameIsString($name);
 
-            $repositories[$name] = $this->get($name);
+            $repositories[is_string($alias) ? $alias : $name] = $this->get($name);
         }
 
         return new self($repositories);

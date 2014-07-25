@@ -2,10 +2,11 @@
 
 namespace Detail\File\Upload\Filter;
 
-use Detail\File\Item\Item;
+use Detail\File\Storage\GaufretteStorage;
 
 use Gaufrette\Exception as GaufretteException;
 use Gaufrette\Filesystem;
+use Gaufrette\File;
 
 use Zend\Filter\Exception as FilterException;
 
@@ -45,38 +46,27 @@ class GaufretteTargetedFileFilter extends AbstractRenameFileFilter
 
     /**
      * {@inheritdoc}
+     * @return File
      */
     protected function createFile($sourceFile, $targetFile, array $uploadData)
     {
-        if ($this->getFilesystem()->has($targetFile) && !$this->getOverwrite()) {
+        $filesystem = $this->getFilesystem();
+
+        if ($filesystem->has($targetFile) && !$this->getOverwrite()) {
             throw new FilterException\InvalidArgumentException(
                 sprintf("File '%s' could not be saved. It already exists.", $targetFile)
             );
         }
 
-        $file = $this->getFilesystem()->createFile($targetFile);
-        $file->setName($uploadData['name']); // Original (not filtered) name
+        // We can re-use our own GaufretteStorage for this...
+        $storage = new GaufretteStorage($filesystem);
+        $gaufretteFile = $storage->createFile($targetFile, $sourceFile, $uploadData);
 
-        if (isset($uploadData['size'])) {
-            $file->setSize($uploadData['size']);
-        }
+        return $gaufretteFile;
 
-        try {
-            $file->setContent(
-                file_get_contents($sourceFile),
-                array('ContentType' => $uploadData['type']) /** @todo This is AwsS3 specific... */
-            );
-        } catch (\Exception $e) {
-            throw new FilterException\RuntimeException(
-                sprintf(
-                    "File '%s' could not be saved. An error occurred while processing the file.",
-                    $file->getKey()
-                ), 0, $e
-            );
-        }
-
-        $item = new Item();
-
-        return $item;
+//        /** @todo Populate with data */
+//        $item = new Item();
+//
+//        return $item;
     }
 }

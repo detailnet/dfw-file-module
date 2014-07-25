@@ -2,8 +2,6 @@
 
 namespace Detail\File\Upload\Filter;
 
-use Detail\File\Item\ItemInterface;
-
 use Zend\Filter\File\RenameUpload as RenameUploadFilter;
 use Zend\Filter\Exception as FilterException;
 
@@ -68,7 +66,7 @@ abstract class AbstractRenameFileFilter extends RenameUploadFilter implements
      * @param string $sourceFile Path to source file
      * @param string $targetFile Path to target file
      * @param array $uploadData
-     * @return ItemInterface
+     * @return mixed
      */
     abstract protected function createFile($sourceFile, $targetFile, array $uploadData);
 
