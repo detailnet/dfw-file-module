@@ -11,11 +11,11 @@ interface RepositoryCollectionInterface extends Countable, ArrayAccess, Iterator
     /**
      * Register a repository in the collection.
      *
-     * @param string $name
      * @param RepositoryInterface $repository
+     * @param string $name Name of the repository within the collection (alias)
      * @return void
      */
-    public function add($name, RepositoryInterface $repository);
+    public function add(RepositoryInterface $repository, $name = null);
 
     /**
      * Check if a repository is registered in the collection.

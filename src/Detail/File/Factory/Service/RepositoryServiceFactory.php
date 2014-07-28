@@ -73,7 +73,7 @@ class RepositoryServiceFactory implements FactoryInterface
             $messenger = new Messenger($producer, $messageFactory);
             $driver = new BernardDriver($messenger); /** @todo Provide queue names */
 
-            $repository = new Repository($storage);
+            $repository = new Repository($name, $storage);
             $repository->setBackgroundDriver($driver);
 
             $repositories[$name] = $repository;

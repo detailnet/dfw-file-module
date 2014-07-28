@@ -36,15 +36,19 @@ class RepositoryCollection implements
                 );
             }
 
-            $this->add($name, $repository);
+            $this->add($repository, is_string($name) ? $name : null);
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function add($name, RepositoryInterface $repository)
+    public function add(RepositoryInterface $repository, $name = null)
     {
+        if ($name === null) {
+            $name = $repository->getName();
+        }
+
         $this->offsetSet($name, $repository);
     }
 
@@ -116,7 +120,7 @@ class RepositoryCollection implements
     public function offsetExists($nameOrRepository)
     {
         try {
-            $this->get($nameOrRepository);
+            $this->offsetGet($nameOrRepository);
             return true;
 
         } catch (RepositoryNotFoundException $e) {

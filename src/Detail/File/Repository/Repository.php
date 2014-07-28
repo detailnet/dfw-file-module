@@ -15,16 +15,32 @@ class Repository implements
 {
     use DriverAwareTrait;
 
+    /**
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @var StorageInterface
+     */
     protected $storage;
 
-    public function __construct(StorageInterface $storage)
+    /**
+     * @param $name
+     * @param StorageInterface $storage
+     */
+    public function __construct($name, StorageInterface $storage)
     {
+        $this->name = $name;
         $this->storage = $storage;
     }
 
-    protected function getStorage()
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
     {
-        return $this->storage;
+        return $this->name;
     }
 
     /**
@@ -183,6 +199,14 @@ class Repository implements
     public function refreshItem($id, array $meta = array(), $createDerivatives = true, $force = true)
     {
         // TODO: Implement refreshItem() method.
+    }
+
+    /**
+     * @return StorageInterface
+     */
+    protected function getStorage()
+    {
+        return $this->storage;
     }
 
     /**

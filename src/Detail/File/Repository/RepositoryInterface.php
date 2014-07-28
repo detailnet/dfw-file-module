@@ -7,6 +7,16 @@ use Detail\File\Item\ItemInterface;
 interface RepositoryInterface
 {
     /**
+     * Get repository name (it's identity).
+     *
+     * Note that this may not necessarily equal the name by which the repository is known
+     * in a collection.
+     *
+     * @return string
+     */
+    public function getName();
+
+    /**
      * Check if an item exists in the repository.
      *
      * @param string $id Item ID
