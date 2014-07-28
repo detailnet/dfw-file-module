@@ -2,14 +2,19 @@
 
 namespace Detail\File\Repository;
 
+use Detail\File\BackgroundProcessing\Driver\DriverAwareTrait;
+use Detail\File\BackgroundProcessing\Driver\DriverInterface;
 use Detail\File\BackgroundProcessing\Repository\BackgroundProcessingRepositoryInterface;
 use Detail\File\Exception\ItemNotFoundException;
+use Detail\File\Exception\RuntimeException;
 use Detail\File\Item\ItemInterface;
 use Detail\File\Storage\StorageInterface;
 
 class Repository implements
     BackgroundProcessingRepositoryInterface
 {
+    use DriverAwareTrait;
+
     protected $storage;
 
     public function __construct(StorageInterface $storage)
@@ -119,12 +124,23 @@ class Repository implements
 //        $this->getBackgroundCreateQueue()->sendMessage();
 
         /** @todo Implement and use driver to send a message to the queue */
-        var_dump($id, $url, $meta, $createDerivatives, $callbackData);
-        exit;
+//        var_dump($id, $url, $meta, $createDerivatives, $callbackData);
+//        exit;
 
-        $this->getBackgroundDriver()->sendCreateMessage(
-            $this, $id, $url, $meta, $createDerivatives, $callbackData
+//        $message = $this->getBackgroundMessageFactory()->createNew(
+//            $this->getName(), $id, $url, $meta, $createDerivatives, $callbackData
+//        );
+
+        $driver = $this->getBackgroundDriver();
+        $message = $driver->getMessageFactory()->createNew(
+            $this->getName(), $id, $url, $meta, $createDerivatives, $callbackData
         );
+
+        $driver->createItem($message);
+
+//        $this->getBackgroundDriver()->createItem(
+//            $this, $id, $url, $meta, $createDerivatives, $callbackData
+//        );
     }
 
     /**
@@ -132,7 +148,7 @@ class Repository implements
      */
     public function reportItemCreatedInBackground(ItemInterface $item, array $callbackData = array())
     {
-        $this->getBackgroundDriver()->sendCompleteMessage(
+        $this->getBackgroundDriver()->completeItem(
             $this, $item->getId(), $item->getPublicUrl(), $item->getMeta(), $createDerivatives, $callbackData
         );
     }
@@ -167,5 +183,20 @@ class Repository implements
     public function refreshItem($id, array $meta = array(), $createDerivatives = true, $force = true)
     {
         // TODO: Implement refreshItem() method.
+    }
+
+    /**
+     * @return DriverInterface
+     * @throws RuntimeException
+     */
+    protected function getBackgroundDriver()
+    {
+        if ($this->backgroundDriver === null) {
+            throw new RuntimeException(
+                'Background processing is not enabled for this repository; no driver was provided'
+            );
+        }
+
+        return $this->backgroundDriver;
     }
 }

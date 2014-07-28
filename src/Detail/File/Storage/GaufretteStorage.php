@@ -9,7 +9,7 @@ use Detail\File\Item\ItemInterface;
 use Detail\File\Repository\RepositoryInterface;
 
 use Gaufrette\Adapter;
-use Gaufrette\Exception as GaufretteException;
+//use Gaufrette\Exception as GaufretteException;
 use Gaufrette\Filesystem;
 
 class GaufretteStorage implements
