@@ -67,12 +67,14 @@ return array(
             'Detail\File\Controller\File' => 'Detail\File\Factory\Controller\FileControllerFactory',
         ),
     ),
-    'background_drivers' => array(
-        'bernard' => array(
-            'create_queue_name' => 'file-create',
-            'complete_queue_name' => 'file-complete',
-            'producer' => 'Bernard\Producer',
-//            'message_factory' => 'Detail\File\BackgroundProcessing\Message\MessageFactory',
+    'detail_file' => array(
+        'background_drivers' => array(
+            'bernard' => array(
+                'create_queue_name' => 'file-create',
+                'complete_queue_name' => 'file-complete',
+                'producer' => 'Bernard\Producer',
+//                'message_factory' => 'Detail\File\BackgroundProcessing\Message\MessageFactory',
+            ),
         ),
     ),
 );
