@@ -8,13 +8,23 @@ use Detail\File\Repository\RepositoryInterface;
 interface StorageInterface
 {
     /**
+     * Check if an item exists.
+     *
+     * @param string $id Item ID
+     * @param string $revision Revision
+     * @return array
+     */
+    public function hasItem($id, $revision = null);
+
+    /**
      * Retrieve an item.
      *
+     * @param RepositoryInterface $repository
      * @param string $id Item ID
      * @param string $revision Revision
      * @return ItemInterface
      */
-    public function getItem($id, $revision = null);
+    public function getItem(RepositoryInterface $repository, $id, $revision = null);
 
     /**
      * Retrieve an item's file contents.
@@ -60,6 +70,15 @@ interface StorageInterface
      * @return int
      */
     public function getItemSize($id, $revision = null);
+
+    /**
+     * Retrieve an item's public URL.
+     *
+     * @param string $id Item ID
+     * @param string $revision Revision
+     * @return int
+     */
+    public function getItemPublicUrl($id, $revision = null);
 
     /**
      * @param RepositoryInterface $repository

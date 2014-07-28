@@ -9,6 +9,7 @@ interface ItemInterface
     const NAME = 'name';
     const TYPE = 'type';
     const SIZE = 'size';
+    const URL  = 'url';
 
 //    /**
 //     * @return \SplFileInfo
@@ -29,6 +30,8 @@ interface ItemInterface
      * @return string
      */
     public function getContents();
+
+//    public function getStream();
 
     /**
      * @param bool $forceReload
@@ -51,5 +54,8 @@ interface ItemInterface
      */
     public function getSize();
 
-//    public function getPublicUrl();
+    /**
+     * @return string
+     */
+    public function getPublicUrl();
 }

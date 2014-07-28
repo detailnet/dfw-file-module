@@ -55,7 +55,7 @@ class Item implements
      * @param $id
      * @param array $meta
      */
-    public function __construct(RepositoryInterface $repository, $id, array $meta = array())
+    public function __construct(RepositoryInterface $repository, $id, array $meta = null)
     {
         $this->repository = $repository;
         $this->id = $id; /** @todo Assert string */
@@ -75,7 +75,7 @@ class Item implements
     {
         $name = $this->getMetaByKey(self::NAME);
 
-        if ($name !== null) {
+        if ($name === null) {
             $name = $this->getRepository()->getItemName($this->getId());
         }
 
@@ -86,7 +86,7 @@ class Item implements
     {
         $type = $this->getMetaByKey(self::TYPE);
 
-        if ($type !== null) {
+        if ($type === null) {
             $type = $this->getRepository()->getItemType($this->getId());
         }
 
@@ -97,11 +97,22 @@ class Item implements
     {
         $size = $this->getMetaByKey(self::SIZE);
 
-        if ($size !== null) {
+        if ($size === null) {
             $size = $this->getRepository()->getItemSize($this->getId());
         }
 
         return $size;
+    }
+
+    public function getPublicUrl()
+    {
+        $url = $this->getMetaByKey(self::URL);
+
+        if ($url === null) {
+            $url = $this->getRepository()->getItemPublicUrl($this->getId());
+        }
+
+        return $url;
     }
 
     protected function getMetaByKey($key, $default = null, $forceReload = false)

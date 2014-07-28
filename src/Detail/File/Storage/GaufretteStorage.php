@@ -2,17 +2,22 @@
 
 namespace Detail\File\Storage;
 
+use Detail\File\Exception\RuntimeException;
 use Detail\File\Exception\StorageException;
 use Detail\File\Item\Item;
 use Detail\File\Item\ItemInterface;
 use Detail\File\Repository\RepositoryInterface;
 
+use Gaufrette\Adapter;
+use Gaufrette\Exception as GaufretteException;
 use Gaufrette\Filesystem;
 
 class GaufretteStorage implements
     StorageInterface
 {
     protected $filesystem;
+
+    protected $urlProvider;
 
     public function __construct(Filesystem $filesystem)
     {
@@ -24,12 +29,27 @@ class GaufretteStorage implements
         return $this->filesystem;
     }
 
+    public function hasItem($id, $revision = null)
+    {
+        return $this->getFilesystem()->has($id);
+    }
+
     /**
      * {@inheritdoc}
      */
-    public function getItem($id, $revision = null)
+    public function getItem(RepositoryInterface $repository, $id, $revision = null)
     {
-        // TODO: Implement getItem() method.
+        if (!$this->hasItem($id)) {
+            return null;
+        }
+
+//        try {
+//            $this->getFilesystem()->get($id);
+//        } catch (GaufretteException\FileNotFound $e) {
+//            return null;
+//        }
+
+        return new Item($repository, $id);
     }
 
     /**
@@ -76,8 +96,30 @@ class GaufretteStorage implements
     /**
      * {@inheritdoc}
      */
+    public function getItemPublicUrl($id, $revision = null)
+    {
+        $adapter = $this->getFilesystem()->getAdapter();
+
+        if ($adapter instanceof Adapter\AwsS3) {
+            $url = $adapter->getUrl($id);
+        } else if ($adapter instanceof Adapter\Local) {
+            /** @todo Create and use URL provider/factory (pass adapter) */
+            $url = '/file/download/user-images/' . $id;
+        } else {
+            throw new RuntimeException(
+                sprintf('Adapter %s does not provide public URLs', get_class($adapter))
+            );
+        }
+
+        return $url;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function createItem(RepositoryInterface $repository, $id, $file, array $meta = array())
     {
+        /** @todo Work with stream */
         return $this->createItemFromContents($repository, $id, $this->getFileContents($file), $meta);
     }
 
@@ -106,20 +148,19 @@ class GaufretteStorage implements
 
     public function createFile($id, $file, array $meta = array())
     {
-
         return $this->createFileFromContents($id, $this->getFileContents($file), $meta);
     }
 
     public function createFileFromContents($id, $contents, array $meta = array())
     {
-        $gaufretteFile = $this->getFilesystem()->createFile($id);
+        $file = $this->getFilesystem()->createFile($id);
 
         if (isset($meta[ItemInterface::NAME])) {
-            $gaufretteFile->setName($meta[ItemInterface::NAME]); // Original name
+            $file->setName($meta[ItemInterface::NAME]); // Original name
         }
 
         if (isset($meta[ItemInterface::SIZE])) {
-            $gaufretteFile->setSize($meta[ItemInterface::SIZE]);
+            $file->setSize($meta[ItemInterface::SIZE]);
         }
 
         $gaufretteMeta = array();
@@ -129,10 +170,14 @@ class GaufretteStorage implements
             $gaufretteMeta['ContentType'] = $meta[ItemInterface::TYPE];
         }
 
-        $gaufretteFile->setContent($contents, $gaufretteMeta);
+        $file->setContent($contents, $gaufretteMeta);
 
-        return $gaufretteFile;
+        return $file;
     }
+
+//    protected function getItemFromFile(File $file)
+//    {
+//    }
 
     protected function getFileContents($file)
     {

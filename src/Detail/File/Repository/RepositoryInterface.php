@@ -70,12 +70,21 @@ interface RepositoryInterface
     public function getItemSize($id, $revision = null);
 
     /**
+     * Retrieve an item's public URL.
+     *
+     * @param string $id Item ID
+     * @param string $revision Revision
+     * @return int
+     */
+    public function getItemPublicUrl($id, $revision = null);
+
+    /**
      * Create an item in the repository.
      *
      * A new (first) revision will be created.
      *
      * @param string $id Item ID
-     * @param \SplFileInfo|string Path to source file
+     * @param string $file Path to source file
      * @param array $meta Meta data
      * @param bool $createDerivatives Create derivatives?
      * @return ItemInterface Created item
