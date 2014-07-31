@@ -46,16 +46,20 @@ return array(
         'aliases' => array(
         ),
         'invokables' => array(
+            'Detail\File\BackgroundProcessing\Message\MessageFactory' => 'Detail\File\BackgroundProcessing\Message\MessageFactory',
         ),
         'factories' => array(
-            'Detail\File\BackgroundProcessing\Driver\Bernard\BernardService' => 'Detail\File\Factory\BackgroundProcessing\Driver\BernardServiceFactory',
-            'Detail\File\BackgroundProcessing\Driver\Bernard\BernardDriver'  => 'Detail\File\Factory\BackgroundProcessing\Driver\BernardDriverFactory',
-            'Detail\File\Options\ModuleOptions'                              => 'Detail\File\Factory\Options\ModuleOptionsFactory',
-            'Detail\File\Service\RepositoryService'                          => 'Detail\File\Factory\Service\RepositoryServiceFactory',
+            'Detail\File\BackgroundProcessing\Bernard\Receiver\CreateItemReceiver' => 'Detail\File\Factory\BackgroundProcessing\Bernard\Receiver\CreateItemReceiverFactory',
+//            'Detail\File\BackgroundProcessing\Driver\Bernard\BernardDriver'        => 'Detail\File\Factory\BackgroundProcessing\Driver\Bernard\BernardDriverFactory',
+            'Detail\File\Options\ModuleOptions'                                    => 'Detail\File\Factory\Options\ModuleOptionsFactory',
+            'Detail\File\Service\RepositoryService'                                => 'Detail\File\Factory\Service\RepositoryServiceFactory',
         ),
         'initializers' => array(
         ),
         'shared' => array(
+            // Message factories are primarily used for Detail\Bernard\Message\Messenger.
+            // We want each Messenger to have it's own factory.
+            'Detail\File\BackgroundProcessing\Message\MessageFactory' => false,
         ),
     ),
     'controllers' => array(
@@ -70,11 +74,23 @@ return array(
     'detail_file' => array(
         'background_drivers' => array(
             'bernard' => array(
-                'create_queue_name' => 'file-create',
-                'complete_queue_name' => 'file-complete',
-                'producer' => 'Bernard\Producer',
+                'create_queue_name' => 'create-item',
+                'complete_queue_name' => 'complete-item',
+                'messenger' => 'bernard.messenger.detail_file',
+//                    'producer' => 'Bernard\Producer',
 //                'message_factory' => 'Detail\File\BackgroundProcessing\Message\MessageFactory',
             ),
+        ),
+    ),
+    'bernard' => array(
+        'messengers' => array(
+            'bernard.messenger.detail_file' => array(
+                'message_factory' => 'Detail\File\BackgroundProcessing\Message\MessageFactory',
+                'producer' => 'Bernard\Producer',
+            ),
+        ),
+        'receivers' => array(
+            'create-item' => 'Detail\File\BackgroundProcessing\Bernard\Receiver\CreateItemReceiver',
         ),
     ),
 );

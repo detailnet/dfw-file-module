@@ -2,8 +2,9 @@
 
 namespace Detail\File\BackgroundProcessing\Bernard\Receiver;
 
+use Detail\Bernard\Message\Messenger;
 use Detail\Bernard\Receiver\AbstractReceiver;
-use Detail\File\BackgroundProcessing\Repository\BackgroundProcessingRepositoryInterface;
+use Detail\File\BackgroundProcessing\Repository\RepositoryInterface as BackgroundProcessingRepositoryInterface;
 use Detail\File\Exception\RuntimeException;
 use Detail\File\Repository\RepositoryCollectionInterface;
 
@@ -18,15 +19,21 @@ class CreateItemReceiver extends AbstractReceiver
      */
     protected $repositories;
 
-    public function __construct(RepositoryCollectionInterface $repositories)
+    /**
+     * @var Messenger
+     */
+    protected $messenger;
+
+    public function __construct(RepositoryCollectionInterface $repositories, Messenger $messenger)
     {
         $this->repositories = $repositories;
+        $this->messenger = $messenger;
     }
 
     public function createItem(BernardMessage $message)
     {
         try {
-            $itemMessage = $this->getBernardService()->decodeMessage($message);
+            $itemMessage = $this->getMessenger()->decodeMessage($message);
             $repository = $this->getRepository($itemMessage->getRepository());
 
             if (!$repository instanceof BackgroundProcessingRepositoryInterface) {
@@ -62,8 +69,19 @@ class CreateItemReceiver extends AbstractReceiver
         return $this->getRepositories()->get($name);
     }
 
+    /**
+     * @return RepositoryCollectionInterface
+     */
     protected function getRepositories()
     {
         return $this->repositories;
+    }
+
+    /**
+     * @return Messenger
+     */
+    protected function getMessenger()
+    {
+        return $this->messenger;
     }
 }

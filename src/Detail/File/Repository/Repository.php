@@ -4,7 +4,7 @@ namespace Detail\File\Repository;
 
 use Detail\File\BackgroundProcessing\Driver\DriverAwareTrait;
 use Detail\File\BackgroundProcessing\Driver\DriverInterface;
-use Detail\File\BackgroundProcessing\Repository\BackgroundProcessingRepositoryInterface;
+use Detail\File\BackgroundProcessing\Repository\RepositoryInterface as BackgroundProcessingRepositoryInterface;
 use Detail\File\Exception\ItemNotFoundException;
 use Detail\File\Exception\RuntimeException;
 use Detail\File\Item\ItemInterface;
@@ -164,9 +164,11 @@ class Repository implements
      */
     public function reportItemCreatedInBackground(ItemInterface $item, array $callbackData = array())
     {
-        $this->getBackgroundDriver()->completeItem(
-            $this, $item->getId(), $item->getPublicUrl(), $item->getMeta(), $createDerivatives, $callbackData
-        );
+        throw new \Exception('Not yet implemented');
+
+//        $this->getBackgroundDriver()->completeItem(
+//            $this, $item->getId(), $item->getPublicUrl(), $item->getMeta(), $createDerivatives, $callbackData
+//        );
     }
 
     /**

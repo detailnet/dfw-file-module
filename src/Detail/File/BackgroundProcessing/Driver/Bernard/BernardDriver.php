@@ -17,12 +17,12 @@ class BernardDriver
     /**
      * @var string
      */
-    protected $createQueueName = 'file-create';
+    protected $createQueueName = 'create-item';
 
     /**
      * @var string
      */
-    protected $completeQueueName = 'file-complete';
+    protected $completeQueueName = 'complete-item';
 
     /**
      * @return string

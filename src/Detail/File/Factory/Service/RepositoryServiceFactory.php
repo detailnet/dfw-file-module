@@ -8,7 +8,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Detail\Bernard\Message\Messenger;
 use Detail\File\Exception\ConfigException;
 use Detail\File\BackgroundProcessing\Driver\Bernard\BernardDriver;
-use Detail\File\BackgroundProcessing\Message\MessageFactory;
+use Detail\File\BackgroundProcessing\Repository\RepositoryInterface as BackgroundProcessingRepositoryInterface;
 use Detail\File\Repository\Repository;
 use Detail\File\Storage\GaufretteStorage;
 use Detail\File\Service\RepositoryService;
@@ -67,14 +67,34 @@ class RepositoryServiceFactory implements FactoryInterface
             $filesystem = $filesystemService->get($name);
             $storage = new GaufretteStorage($filesystem);
 
-            $messageFactory = new MessageFactory();
+            // Note that each the MessageFactory is not shared (new instance returned on each SL call)
+            /** @var \Detail\File\BackgroundProcessing\Message\MessageFactory $messageFactory */
+            $messageFactory = $serviceLocator->get('Detail\File\BackgroundProcessing\Message\MessageFactory');
+
             /** @var \Bernard\Producer $producer */
             $producer = $serviceLocator->get('Bernard\Producer');
             $messenger = new Messenger($producer, $messageFactory);
+
             $driver = new BernardDriver($messenger); /** @todo Provide queue names */
 
-            $repository = new Repository($name, $storage);
-            $repository->setBackgroundDriver($driver);
+            $repositoryClass = $repositoryOptions->getClass();
+
+            if (!class_exists($repositoryClass)) {
+                throw new ConfigException(
+                    sprintf(
+                        'Invalid save repository class "%s" specified in "class"; ' .
+                        'must be a valid class name',
+                        $repositoryClass
+                    )
+                );
+            }
+
+            /** @todo Support other implementations of RepositoryInterface */
+            $repository = new $repositoryClass($name, $storage);
+
+            if ($repository instanceof BackgroundProcessingRepositoryInterface) {
+                $repository->setBackgroundDriver($driver);
+            }
 
             $repositories[$name] = $repository;
         }

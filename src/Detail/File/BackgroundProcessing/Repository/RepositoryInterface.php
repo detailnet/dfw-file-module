@@ -2,10 +2,17 @@
 
 namespace Detail\File\BackgroundProcessing\Repository;
 
-use Detail\File\Repository\RepositoryInterface;
+use Detail\File\BackgroundProcessing\Driver\DriverInterface;
+use Detail\File\Item\ItemInterface;
+use Detail\File\Repository\RepositoryInterface as StandardRepositoryInterface;
 
-interface BackgroundProcessingRepositoryInterface extends RepositoryInterface
+interface RepositoryInterface extends StandardRepositoryInterface
 {
+    /**
+     * @param DriverInterface $backgroundDriver
+     */
+    public function setBackgroundDriver(DriverInterface $backgroundDriver);
+
     /**
      * Create an item in the repository using a background task.
      *
@@ -22,4 +29,6 @@ interface BackgroundProcessingRepositoryInterface extends RepositoryInterface
     public function createItemInBackground(
         $id, $url, array $meta = array(), $createDerivatives = true, array $callbackData = array()
     );
+
+    public function reportItemCreatedInBackground(ItemInterface $item, array $callbackData = array());
 }
