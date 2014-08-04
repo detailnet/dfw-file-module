@@ -93,26 +93,26 @@ class GaufretteStorage implements
         return $this->getFilesystem()->size($id);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getItemPublicUrl($id, $revision = null)
-    {
-        $adapter = $this->getFilesystem()->getAdapter();
-
-        if ($adapter instanceof Adapter\AwsS3) {
-            $url = $adapter->getUrl($id);
-        } else if ($adapter instanceof Adapter\Local) {
-            /** @todo Create and use URL provider/factory (pass adapter) */
-            $url = '/file/download/user-images/' . $id;
-        } else {
-            throw new RuntimeException(
-                sprintf('Adapter %s does not provide public URLs', get_class($adapter))
-            );
-        }
-
-        return $url;
-    }
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function getItemPublicUrl($id, $revision = null)
+//    {
+//        $adapter = $this->getFilesystem()->getAdapter();
+//
+//        if ($adapter instanceof Adapter\AwsS3) {
+//            $url = $adapter->getUrl($id);
+//        } else if ($adapter instanceof Adapter\Local) {
+//            /** @todo Create and use URL provider/factory (pass adapter) */
+//            $url = '/file/download/user-images/' . $id;
+//        } else {
+//            throw new RuntimeException(
+//                sprintf('Adapter %s does not provide public URLs', get_class($adapter))
+//            );
+//        }
+//
+//        return $url;
+//    }
 
     /**
      * {@inheritdoc}

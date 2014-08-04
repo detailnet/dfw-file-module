@@ -17,6 +17,11 @@ class RepositoryOptions extends AbstractOptions
     protected $storage;
 
     /**
+     * @var ResolverOptions
+     */
+    protected $resolver;
+
+    /**
      * @var string
      */
     protected $backgroundDriver = 'Detail\File\BackgroundProcessing\Driver\Bernard\BernardDriver';
@@ -61,6 +66,22 @@ class RepositoryOptions extends AbstractOptions
     public function getStorage()
     {
         return $this->storage;
+    }
+
+    /**
+     * @return ResolverOptions
+     */
+    public function getResolver()
+    {
+        return $this->resolver;
+    }
+
+    /**
+     * @param array $resolver
+     */
+    public function setResolver(array $resolver)
+    {
+        $this->resolver = new ResolverOptions($resolver);
     }
 
     /**

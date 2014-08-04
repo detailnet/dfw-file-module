@@ -71,14 +71,14 @@ interface StorageInterface
      */
     public function getItemSize($id, $revision = null);
 
-    /**
-     * Retrieve an item's public URL.
-     *
-     * @param string $id Item ID
-     * @param string $revision Revision
-     * @return int
-     */
-    public function getItemPublicUrl($id, $revision = null);
+//    /**
+//     * Retrieve an item's public URL.
+//     *
+//     * @param string $id Item ID
+//     * @param string $revision Revision
+//     * @return int
+//     */
+//    public function getItemPublicUrl($id, $revision = null);
 
     /**
      * @param RepositoryInterface $repository

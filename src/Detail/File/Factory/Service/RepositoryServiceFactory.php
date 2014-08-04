@@ -5,11 +5,10 @@ namespace Detail\File\Factory\Service;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use Detail\Bernard\Message\Messenger;
-use Detail\File\Exception\ConfigException;
-use Detail\File\BackgroundProcessing\Driver\Bernard\BernardDriver;
 use Detail\File\BackgroundProcessing\Repository\RepositoryInterface as BackgroundProcessingRepositoryInterface;
-use Detail\File\Repository\Repository;
+use Detail\File\Exception\ConfigException;
+use Detail\File\Factory\Resolver\ResolverFactoryInterface;
+use Detail\File\Resolver\ResolverAwareInterface;
 use Detail\File\Storage\GaufretteStorage;
 use Detail\File\Service\RepositoryService;
 
@@ -24,36 +23,7 @@ class RepositoryServiceFactory implements FactoryInterface
         /** @var \Detail\File\Options\ModuleOptions $options */
         $options = $serviceLocator->get('Detail\File\Options\ModuleOptions');
 
-//        $adapterFactories = $options->getAdapterFactories();
-//        $adapters = array();
-//
-//        foreach ($options->getAdapters() as $name => $adapter) {
-//            /** @var \Detail\Gaufrette\Options\AdapterOptions $adapter */
-//
-//            if (!isset($adapterFactories[$adapter->getType()])) {
-//                throw new ConfigException(
-//                    sprintf('No factory configured for adapter type "%s"', $adapter->getType())
-//                );
-//            }
-//
-//            $adapterFactoryClass = $adapterFactories[$adapter->getType()];
-//
-//            if (!class_exists($adapterFactoryClass)) {
-//                throw new ConfigException(
-//                    sprintf(
-//                        'Adapter factory class "%s" does not exist for type "%s"',
-//                        $adapterFactoryClass, $adapter->getType()
-//                    )
-//                );
-//            }
-//
-//            /** @var \Detail\Gaufrette\Factory\Adapter\AdapterInterface $adapterFactory */
-//            $adapterFactory = new $adapterFactoryClass();
-//
-//            $adapters[$name] = $adapterFactory->createAdapter(
-//                $serviceLocator, $adapter->getOptions()
-//            );
-//        }
+        $resolverFactories = $options->getResolverFactories();
 
         /** @var \Detail\Gaufrette\Service\FilesystemService $filesystemService */
         $filesystemService = $serviceLocator->get('Detail\Gaufrette\Service\FilesystemService');
@@ -87,6 +57,45 @@ class RepositoryServiceFactory implements FactoryInterface
                 $driver = $serviceLocator->get($repositoryOptions->getBackgroundDriver());
 
                 $repository->setBackgroundDriver($driver);
+            }
+
+            $resolver = $repositoryOptions->getResolver();
+
+            if ($resolver !== null && $repository instanceof ResolverAwareInterface) {
+                if (!isset($resolverFactories[$resolver->getType()])) {
+                    throw new ConfigException(
+                        sprintf('No factory configured for resolver type "%s"', $resolver->getType())
+                    );
+                }
+
+                $resolverFactoryClass = $resolverFactories[$resolver->getType()];
+
+                if (!class_exists($resolverFactoryClass)) {
+                    throw new ConfigException(
+                        sprintf(
+                            'Resolver factory class "%s" does not exist for type "%s"',
+                            $resolverFactoryClass, $resolver->getType()
+                        )
+                    );
+                }
+
+                $resolverFactory = new $resolverFactoryClass();
+
+                if (!$resolverFactory instanceof ResolverFactoryInterface) {
+                    throw new ConfigException(
+                        sprintf(
+                            'Invalid factory class "%s" configured for resolver type "%s";' .
+                            'Expected Detail\File\Factory\Resolver\ResolverFactoryInterface object; received "%s"',
+                            $resolverFactoryClass,
+                            $resolver->getType(),
+                            (is_object($resolverFactory) ? get_class($resolverFactory) : gettype($resolverFactory))
+                        )
+                    );
+                }
+
+                $repository->setPublicUrlResolver(
+                    $resolverFactory->createResolver($serviceLocator, $resolver->getOptions())
+                );
             }
 
             $repositories[$name] = $repository;

@@ -8,12 +8,17 @@ use Detail\File\BackgroundProcessing\Repository\RepositoryInterface as Backgroun
 use Detail\File\Exception\ItemNotFoundException;
 use Detail\File\Exception\RuntimeException;
 use Detail\File\Item\ItemInterface;
+use Detail\File\Resolver\ResolverAwareInterface;
+use Detail\File\Resolver\ResolverAwareTrait;
+use Detail\File\Resolver\ResolverInterface;
 use Detail\File\Storage\StorageInterface;
 
 class Repository implements
-    BackgroundProcessingRepositoryInterface
+    BackgroundProcessingRepositoryInterface,
+    ResolverAwareInterface
 {
     use DriverAwareTrait;
+    use ResolverAwareTrait;
 
     /**
      * @var string
@@ -60,7 +65,7 @@ class Repository implements
 
         if ($item === null) {
             throw new ItemNotFoundException(
-                sprintf('Item "%s" does not exist in the repository')
+                sprintf('Item "%s" does not exist in the repository', $id)
             );
         }
 
@@ -112,7 +117,12 @@ class Repository implements
      */
     public function getItemPublicUrl($id, $revision = null)
     {
-        return $this->getStorage()->getItemPublicUrl($id, $revision);
+        /** @todo Add support for revision */
+        $url = $this->getPublicUrlResolver()->resolve($id);
+
+        return $url;
+
+//        return $this->getStorage()->getItemPublicUrl($id, $revision);
     }
 
     /**
@@ -210,5 +220,20 @@ class Repository implements
         }
 
         return $this->backgroundDriver;
+    }
+
+    /**
+     * @return ResolverInterface
+     * @throws RuntimeException
+     */
+    protected function getPublicUrlResolver()
+    {
+        if ($this->publicUrlResolver === null) {
+            throw new RuntimeException(
+                'Public URL resolving is not enabled for this repository; no resolver was provided'
+            );
+        }
+
+        return $this->publicUrlResolver;
     }
 }

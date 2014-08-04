@@ -42,6 +42,7 @@ return array(
     ),
     'service_manager' => array(
         'abstract_factories' => array(
+//            'Detail\File\Factory\Resolver\ResolverAbstractFactory',
         ),
         'aliases' => array(
         ),
@@ -80,10 +81,10 @@ return array(
                 'messenger' => 'bernard.messenger.detail_file',
             ),
         ),
-//        'background_bernard_receiver' => array(
-//            // Same as for the driver
-//            'messenger' => 'bernard.messenger.detail_file',
-//        ),
+        // Type/class mapping for the resolver factories
+        'resolver_factories' => array(
+            'prefix' => 'Detail\File\Factory\Resolver\PrefixResolverFactory',
+        ),
     ),
     'bernard' => array(
         'messengers' => array(

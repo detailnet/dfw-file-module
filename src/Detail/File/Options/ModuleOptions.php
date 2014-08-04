@@ -22,6 +22,11 @@ class ModuleOptions extends AbstractOptions
     protected $backgroundDrivers = array();
 
     /**
+     * @var array
+     */
+    protected $resolverFactories = array();
+
+    /**
      * @return RepositoryOptions[]
      */
     public function getRepositories()
@@ -79,5 +84,21 @@ class ModuleOptions extends AbstractOptions
     public function setBackgroundDrivers(array $backgroundDrivers)
     {
         $this->backgroundDrivers = $backgroundDrivers;
+    }
+
+    /**
+     * @return array
+     */
+    public function getResolverFactories()
+    {
+        return $this->resolverFactories;
+    }
+
+    /**
+     * @param array $resolverFactories
+     */
+    public function setResolverFactories(array $resolverFactories)
+    {
+        $this->resolverFactories = $resolverFactories;
     }
 }
