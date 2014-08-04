@@ -56,10 +56,26 @@ class BernardDriver
         $this->completeQueueName = $completeQueueName;
     }
 
+    /**
+     * @return Messenger
+     */
+    public function getMessenger()
+    {
+        return $this->messenger;
+    }
+
+    /**
+     * @param Messenger $messenger
+     */
+    public function setMessenger(Messenger $messenger)
+    {
+        $this->messenger = $messenger;
+    }
+
     public function __construct(
         Messenger $messenger, $createQueueName = null, $completeQueueName = null
     ) {
-        $this->messenger = $messenger;
+        $this->setMessenger($messenger);
 
         if ($createQueueName !== null) {
             $this->setCreateQueueName($createQueueName);
@@ -99,10 +115,5 @@ class BernardDriver
         $messenger = $this->getMessenger();
         $bernardMessage = $messenger->encodeMessage($message, $queue);
         $messenger->produce($bernardMessage);
-    }
-
-    protected function getMessenger()
-    {
-        return $this->messenger;
     }
 }

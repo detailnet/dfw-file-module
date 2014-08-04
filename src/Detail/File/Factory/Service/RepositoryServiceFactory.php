@@ -67,16 +67,6 @@ class RepositoryServiceFactory implements FactoryInterface
             $filesystem = $filesystemService->get($name);
             $storage = new GaufretteStorage($filesystem);
 
-            // Note that each the MessageFactory is not shared (new instance returned on each SL call)
-            /** @var \Detail\File\BackgroundProcessing\Message\MessageFactory $messageFactory */
-            $messageFactory = $serviceLocator->get('Detail\File\BackgroundProcessing\Message\MessageFactory');
-
-            /** @var \Bernard\Producer $producer */
-            $producer = $serviceLocator->get('Bernard\Producer');
-            $messenger = new Messenger($producer, $messageFactory);
-
-            $driver = new BernardDriver($messenger); /** @todo Provide queue names */
-
             $repositoryClass = $repositoryOptions->getClass();
 
             if (!class_exists($repositoryClass)) {
@@ -93,6 +83,9 @@ class RepositoryServiceFactory implements FactoryInterface
             $repository = new $repositoryClass($name, $storage);
 
             if ($repository instanceof BackgroundProcessingRepositoryInterface) {
+                /** @var \Detail\File\BackgroundProcessing\Driver\DriverInterface $driver */
+                $driver = $serviceLocator->get($repositoryOptions->getBackgroundDriver());
+
                 $repository->setBackgroundDriver($driver);
             }
 

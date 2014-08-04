@@ -30,9 +30,10 @@ class CreateItemReceiver extends AbstractReceiver
         $this->messenger = $messenger;
     }
 
-    public function createItem(BernardMessage $message)
+    public function receive(BernardMessage $message)
     {
         try {
+            /** @var \Detail\File\BackgroundProcessing\Message\MessageInterface $itemMessage */
             $itemMessage = $this->getMessenger()->decodeMessage($message);
             $repository = $this->getRepository($itemMessage->getRepository());
 
@@ -47,12 +48,14 @@ class CreateItemReceiver extends AbstractReceiver
                 );
             }
 
+            $itemMessage->getId();
+
             $item = $repository->createItem(
                 $itemMessage->getId(), $itemMessage->getPublicUrl(),
-                $itemMessage->getMeta(), $itemMessage->getDerivatives()
+                $itemMessage->getMeta(), $itemMessage->getCreateDerivatives()
             );
 
-            $repository->reportItemCreatedInBackground($item, $itemMessage->callbackData());
+            $repository->reportItemCreatedInBackground($item, $itemMessage->getCallbackData());
         } catch (\Exception $e) {
             /** @todo Handle known exception for better readability... */
             $this->log($e, LogLevel::CRITICAL);

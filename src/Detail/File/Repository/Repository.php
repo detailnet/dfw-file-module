@@ -137,26 +137,12 @@ class Repository implements
     public function createItemInBackground(
         $id, $url, array $meta = array(), $createDerivatives = true, array $callbackData = array()
     ) {
-//        $this->getBackgroundCreateQueue()->sendMessage();
-
-        /** @todo Implement and use driver to send a message to the queue */
-//        var_dump($id, $url, $meta, $createDerivatives, $callbackData);
-//        exit;
-
-//        $message = $this->getBackgroundMessageFactory()->createNew(
-//            $this->getName(), $id, $url, $meta, $createDerivatives, $callbackData
-//        );
-
         $driver = $this->getBackgroundDriver();
         $message = $driver->getMessageFactory()->createNew(
             $this->getName(), $id, $url, $meta, $createDerivatives, $callbackData
         );
 
         $driver->createItem($message);
-
-//        $this->getBackgroundDriver()->createItem(
-//            $this, $id, $url, $meta, $createDerivatives, $callbackData
-//        );
     }
 
     /**

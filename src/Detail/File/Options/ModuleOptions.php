@@ -17,6 +17,11 @@ class ModuleOptions extends AbstractOptions
     protected $derivativeProviders = array();
 
     /**
+     * @var array
+     */
+    protected $backgroundDrivers = array();
+
+    /**
      * @return RepositoryOptions[]
      */
     public function getRepositories()
@@ -27,7 +32,7 @@ class ModuleOptions extends AbstractOptions
     /**
      * @param RepositoryOptions[] $repositories
      */
-    public function setRepositories($repositories)
+    public function setRepositories(array $repositories)
     {
         $options = array();
 
@@ -49,7 +54,7 @@ class ModuleOptions extends AbstractOptions
     /**
      * @param DerivativeProviderOptions[] $derivativeProviders
      */
-    public function setDerivativeProviders($derivativeProviders)
+    public function setDerivativeProviders(array $derivativeProviders)
     {
         $options = array();
 
@@ -58,5 +63,21 @@ class ModuleOptions extends AbstractOptions
         }
 
         $this->derivativeProviders = $options;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBackgroundDrivers()
+    {
+        return $this->backgroundDrivers;
+    }
+
+    /**
+     * @param array $backgroundDrivers
+     */
+    public function setBackgroundDrivers(array $backgroundDrivers)
+    {
+        $this->backgroundDrivers = $backgroundDrivers;
     }
 }

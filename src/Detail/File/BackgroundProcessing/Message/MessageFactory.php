@@ -81,7 +81,7 @@ class MessageFactory implements
         );
 
         foreach ($requiredKeys as $key) {
-            if (!isset($messageData[$key]) || strlen($messageData[$key])) {
+            if (!isset($messageData[$key]) || strlen($messageData[$key]) === 0) {
                 throw new RuntimeException(
                     sprintf('Invalid or no value for message key "%s"', $key)
                 );

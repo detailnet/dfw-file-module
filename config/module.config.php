@@ -50,7 +50,8 @@ return array(
         ),
         'factories' => array(
             'Detail\File\BackgroundProcessing\Bernard\Receiver\CreateItemReceiver' => 'Detail\File\Factory\BackgroundProcessing\Bernard\Receiver\CreateItemReceiverFactory',
-//            'Detail\File\BackgroundProcessing\Driver\Bernard\BernardDriver'        => 'Detail\File\Factory\BackgroundProcessing\Driver\Bernard\BernardDriverFactory',
+            'Detail\File\BackgroundProcessing\Driver\Bernard\BernardDriver'        => 'Detail\File\Factory\BackgroundProcessing\Driver\BernardDriverFactory',
+            'Detail\File\Options\BackgroundProcessing\Driver\BernardDriverOptions' => 'Detail\File\Factory\Options\BackgroundProcessing\Driver\BernardDriverOptionsFactory',
             'Detail\File\Options\ModuleOptions'                                    => 'Detail\File\Factory\Options\ModuleOptionsFactory',
             'Detail\File\Service\RepositoryService'                                => 'Detail\File\Factory\Service\RepositoryServiceFactory',
         ),
@@ -77,10 +78,12 @@ return array(
                 'create_queue_name' => 'create-item',
                 'complete_queue_name' => 'complete-item',
                 'messenger' => 'bernard.messenger.detail_file',
-//                    'producer' => 'Bernard\Producer',
-//                'message_factory' => 'Detail\File\BackgroundProcessing\Message\MessageFactory',
             ),
         ),
+//        'background_bernard_receiver' => array(
+//            // Same as for the driver
+//            'messenger' => 'bernard.messenger.detail_file',
+//        ),
     ),
     'bernard' => array(
         'messengers' => array(

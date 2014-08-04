@@ -17,6 +17,11 @@ class RepositoryOptions extends AbstractOptions
     protected $storage;
 
     /**
+     * @var string
+     */
+    protected $backgroundDriver = 'Detail\File\BackgroundProcessing\Driver\Bernard\BernardDriver';
+
+    /**
      * @var array
      */
     protected $derivatives = array();
@@ -56,6 +61,22 @@ class RepositoryOptions extends AbstractOptions
     public function getStorage()
     {
         return $this->storage;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBackgroundDriver()
+    {
+        return $this->backgroundDriver;
+    }
+
+    /**
+     * @param string $backgroundDriver
+     */
+    public function setBackgroundDriver($backgroundDriver)
+    {
+        $this->backgroundDriver = $backgroundDriver;
     }
 
     /**

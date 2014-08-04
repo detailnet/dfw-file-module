@@ -17,11 +17,12 @@ class CreateItemReceiverFactory implements FactoryInterface
         /** @var \Detail\File\Service\RepositoryService $repositories */
         $repositories = $serviceLocator->get('Detail\File\Service\RepositoryService');
 
-        /** @var \Detail\Bernard\Message\Messenger $messenger */
-        /** @todo This does not obviously work (repository > backend driver > messenger) */
-        $messenger = $serviceLocator->get('Detail\Bernard\Message\Messenger');
+        /** @var \Detail\File\BackgroundProcessing\Driver\Bernard\BernardDriver $bernardDriver */
+        $bernardDriver = $serviceLocator->get(
+            'Detail\File\BackgroundProcessing\Driver\Bernard\BernardDriver'
+        );
 
-        $service = new CreateItemReceiver($repositories, $messenger);
+        $service = new CreateItemReceiver($repositories, $bernardDriver->getMessenger());
 
         return $service;
     }
