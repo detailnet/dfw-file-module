@@ -30,5 +30,11 @@ interface RepositoryInterface extends StandardRepositoryInterface
         $id, $url, array $meta = array(), $createDerivatives = true, array $callbackData = array()
     );
 
-    public function reportItemCreatedInBackground(ItemInterface $item, array $callbackData = array());
+    /**
+     * @param ItemInterface $item Item that was created
+     * @param bool $createDerivatives Created derivatives
+     * @param array $callbackData Data
+     * @return void
+     */
+    public function reportItemCreatedInBackground(ItemInterface $item, $createDerivatives, array $callbackData);
 }

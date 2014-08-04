@@ -158,13 +158,14 @@ class Repository implements
     /**
      * {@inheritdoc}
      */
-    public function reportItemCreatedInBackground(ItemInterface $item, array $callbackData = array())
+    public function reportItemCreatedInBackground(ItemInterface $item, $createDerivatives, array $callbackData)
     {
-        throw new \Exception('Not yet implemented');
+        $driver = $this->getBackgroundDriver();
+        $message = $driver->getMessageFactory()->createNew(
+            $this->getName(), $item->getId(), $item->getPublicUrl(), $item->getMeta(), $createDerivatives, $callbackData
+        );
 
-//        $this->getBackgroundDriver()->completeItem(
-//            $this, $item->getId(), $item->getPublicUrl(), $item->getMeta(), $createDerivatives, $callbackData
-//        );
+        $driver->completeItem($message);
     }
 
     /**
