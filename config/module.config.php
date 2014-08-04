@@ -81,6 +81,10 @@ return array(
                 'messenger' => 'bernard.messenger.detail_file',
             ),
         ),
+        // Type/class mapping for the storage factories
+        'storage_factories' => array(
+            'gaufrette' => 'Detail\File\Factory\Storage\GaufretteStorageFactory',
+        ),
         // Type/class mapping for the resolver factories
         'resolver_factories' => array(
             'prefix' => 'Detail\File\Factory\Resolver\PrefixResolverFactory',

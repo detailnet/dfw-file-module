@@ -12,7 +12,7 @@ class RepositoryOptions extends AbstractOptions
     protected $class = 'Detail\File\Repository\Repository';
 
     /**
-     * @var string
+     * @var StorageOptions
      */
     protected $storage;
 
@@ -53,15 +53,15 @@ class RepositoryOptions extends AbstractOptions
     }
 
     /**
-     * @param string $storage
+     * @param array $storage
      */
-    public function setStorage($storage)
+    public function setStorage(array $storage)
     {
-        $this->storage = $storage;
+        $this->storage = new StorageOptions($storage);
     }
 
     /**
-     * @return string
+     * @return StorageOptions
      */
     public function getStorage()
     {

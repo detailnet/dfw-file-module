@@ -16,8 +16,8 @@ class PrefixResolverFactory implements
     public function createResolver(ServiceLocatorInterface $serviceLocator, array $config)
     {
         $options = new Options($config);
-        $adapter = new Resolver($options->getPrefix());
+        $resolver = new Resolver($options->getPrefix());
 
-        return $adapter;
+        return $resolver;
     }
 }

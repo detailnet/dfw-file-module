@@ -2,7 +2,6 @@
 
 namespace Detail\File\Storage;
 
-use Detail\File\Exception\RuntimeException;
 use Detail\File\Exception\StorageException;
 use Detail\File\Item\Item;
 use Detail\File\Item\ItemInterface;
@@ -17,16 +16,9 @@ class GaufretteStorage implements
 {
     protected $filesystem;
 
-    protected $urlProvider;
-
     public function __construct(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
-    }
-
-    protected function getFilesystem()
-    {
-        return $this->filesystem;
     }
 
     public function hasItem($id, $revision = null)
@@ -183,5 +175,10 @@ class GaufretteStorage implements
     {
         /** @todo Error handling */
         return file_get_contents($file);
+    }
+
+    protected function getFilesystem()
+    {
+        return $this->filesystem;
     }
 }

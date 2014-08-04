@@ -78,6 +78,8 @@ class FileController extends AbstractActionController implements
             throw new InvalidParamException('Invalid or no value for required parameter "id"');
         }
 
+        $id = urldecode($id);
+
 //        if ($derivative !== null) {
 //            $id .= '/' . $derivative;
 //        }
