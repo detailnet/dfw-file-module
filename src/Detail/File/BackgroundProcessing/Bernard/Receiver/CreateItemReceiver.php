@@ -24,12 +24,20 @@ class CreateItemReceiver extends AbstractReceiver
      */
     protected $messenger;
 
+    /**
+     * @param RepositoryCollectionInterface $repositories
+     * @param Messenger $messenger
+     */
     public function __construct(RepositoryCollectionInterface $repositories, Messenger $messenger)
     {
         $this->repositories = $repositories;
         $this->messenger = $messenger;
     }
 
+    /**
+     * @param BernardMessage $message
+     * @throws \Exception
+     */
     public function receive(BernardMessage $message)
     {
         try {

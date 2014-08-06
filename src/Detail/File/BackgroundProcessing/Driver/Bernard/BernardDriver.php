@@ -25,6 +25,22 @@ class BernardDriver
     protected $completeQueueName = 'complete-item';
 
     /**
+     * @return Messenger
+     */
+    public function getMessenger()
+    {
+        return $this->messenger;
+    }
+
+    /**
+     * @param Messenger $messenger
+     */
+    public function setMessenger(Messenger $messenger)
+    {
+        $this->messenger = $messenger;
+    }
+
+    /**
      * @return string
      */
     public function getCreateQueueName()
@@ -54,22 +70,6 @@ class BernardDriver
     public function setCompleteQueueName($completeQueueName)
     {
         $this->completeQueueName = $completeQueueName;
-    }
-
-    /**
-     * @return Messenger
-     */
-    public function getMessenger()
-    {
-        return $this->messenger;
-    }
-
-    /**
-     * @param Messenger $messenger
-     */
-    public function setMessenger(Messenger $messenger)
-    {
-        $this->messenger = $messenger;
     }
 
     public function __construct(

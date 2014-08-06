@@ -41,6 +41,7 @@ class MessageFactory implements
      */
     public function setMessageClass($messageClass)
     {
+        /** @todo Check if it implements Detail\File\BackgroundProcessing\Message\MessageInterface */
         $this->messageClass = $messageClass;
     }
 
