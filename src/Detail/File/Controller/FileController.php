@@ -92,6 +92,9 @@ class FileController extends AbstractActionController implements
 
         } catch (ItemNotFoundException $e) {
             $response->setStatusCode(404);
+
+            // We're return the response object so the 404 page does not get rendered.
+            // We don't want to send contents for non-existing files.
             return $response;
         }
 
