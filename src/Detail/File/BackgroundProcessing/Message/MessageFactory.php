@@ -118,7 +118,7 @@ class MessageFactory implements
     }
 
     /**
-     * @param MessageInterface $message
+     * @param mixed $message
      * @param bool $failOnMismatch
      * @return bool
      * @throws RuntimeException
