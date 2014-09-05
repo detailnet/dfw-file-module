@@ -87,7 +87,8 @@ return array(
         ),
         // Type/class mapping for the resolver factories
         'resolver_factories' => array(
-            'prefix' => 'Detail\File\Factory\Resolver\PrefixResolverFactory',
+            'prefix'  => 'Detail\File\Factory\Resolver\PrefixResolverFactory',
+            'storage' => 'Detail\File\Factory\Resolver\StorageResolverFactory',
         ),
     ),
     'bernard' => array(

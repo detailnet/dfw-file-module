@@ -2,6 +2,7 @@
 
 namespace Detail\File\Factory\Service;
 
+use Detail\File\Storage\StorageAwareInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -45,17 +46,16 @@ class RepositoryServiceFactory implements FactoryInterface
                 );
             }
 
-            $storage = $repositoryOptions->getStorage();
+            $storageOptions = $repositoryOptions->getStorage();
 
-            if ($storage === null) {
+            if ($storageOptions === null) {
                 throw new ConfigException('Missing configuration for storage');
             }
 
+            $storage = $this->createStorage($serviceLocator, $storageFactories, $storageOptions);
+
             /** @todo Support other implementations of RepositoryInterface */
-            $repository = new $repositoryClass(
-                $name,
-                $this->createStorage($serviceLocator, $storageFactories, $storage)
-            );
+            $repository = new $repositoryClass($name, $storage);
 
             if ($repository instanceof BackgroundProcessingRepositoryInterface) {
                 /** @var \Detail\File\BackgroundProcessing\Driver\DriverInterface $driver */
@@ -64,12 +64,16 @@ class RepositoryServiceFactory implements FactoryInterface
                 $repository->setBackgroundDriver($driver);
             }
 
-            $resolver = $repositoryOptions->getResolver();
+            $resolverOptions = $repositoryOptions->getResolver();
 
-            if ($resolver !== null && $repository instanceof ResolverAwareInterface) {
-                $repository->setPublicUrlResolver(
-                    $this->createResolver($serviceLocator, $resolverFactories, $resolver)
-                );
+            if ($resolverOptions !== null && $repository instanceof ResolverAwareInterface) {
+                $resolver = $this->createResolver($serviceLocator, $resolverFactories, $resolverOptions);
+
+                if ($resolver instanceof StorageAwareInterface) {
+                    $resolver->setStorage($storage);
+                }
+
+                $repository->setPublicUrlResolver($resolver);
             }
 
             $repositories[$name] = $repository;

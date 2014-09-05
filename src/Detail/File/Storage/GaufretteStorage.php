@@ -16,6 +16,11 @@ class GaufretteStorage implements
 {
     protected $filesystem;
 
+    public function getFilesystem()
+    {
+        return $this->filesystem;
+    }
+
     public function __construct(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
@@ -74,7 +79,26 @@ class GaufretteStorage implements
      */
     public function getItemType($id, $revision = null)
     {
-        return $this->getFilesystem()->mimeType($id);
+        $filesystem = $this->getFilesystem();
+        $adapter = $filesystem->getAdapter();
+
+        if ($adapter instanceof Adapter\MimeTypeProvider) {
+            return $this->getFilesystem()->mimeType($id);
+        }
+//        else if ($adapter instanceof Adapter\AwsS3 && class_exists('finfo', false)) {
+//            $mime = @finfo_open(FILEINFO_MIME_TYPE);
+//
+//            if ($mime !== false) {
+//                /** @todo What about revisions? */
+//                $detectedType = finfo_file($mime, $adapter->getUrl($id));
+//
+//                if ($detectedType !== false) {
+//                    return $detectedType;
+//                }
+//
+//                @finfo_close($mime);
+//            }
+//        }
     }
 
     /**
@@ -175,10 +199,5 @@ class GaufretteStorage implements
     {
         /** @todo Error handling */
         return file_get_contents($file);
-    }
-
-    protected function getFilesystem()
-    {
-        return $this->filesystem;
     }
 }

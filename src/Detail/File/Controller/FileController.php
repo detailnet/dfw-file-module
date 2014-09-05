@@ -102,13 +102,8 @@ class FileController extends AbstractActionController implements
         $size = $item->getSize();
 
 //        if ($type === null) {
-//            $info = new \finfo(FILEINFO_MIME);
-//            $type = $info->file($this->getPath());
+//            $type = 'application/octet-stream';
 //        }
-
-        if ($type === null) {
-            $type = 'application/octet-stream';
-        }
 
         header('Content-Type: ' . $type);
 
