@@ -2,6 +2,7 @@
 
 namespace Detail\File\Options\BackgroundProcessing\Driver;
 
+use Detail\Bernard\Options\QueueOptions;
 use Detail\Core\Options\AbstractOptions;
 
 class BernardDriverOptions extends AbstractOptions
@@ -12,14 +13,14 @@ class BernardDriverOptions extends AbstractOptions
     protected $messenger;
 
     /**
-     * @var string
+     * @var QueueOptions
      */
-    protected $createQueueName = 'create-item';
+    protected $createQueue;
 
     /**
-     * @var string
+     * @var QueueOptions
      */
-    protected $completeQueueName = 'complete-item';
+    protected $completeQueue;
 
     /**
      * @return string
@@ -38,34 +39,42 @@ class BernardDriverOptions extends AbstractOptions
     }
 
     /**
-     * @param string $createQueueName
+     * @param array $createQueue
      */
-    public function setCreateQueueName($createQueueName)
+    public function setCreateQueue(array $createQueue)
     {
-        $this->createQueueName = $createQueueName;
+        $this->createQueue = new QueueOptions($createQueue);
     }
 
     /**
-     * @return string
+     * @return QueueOptions
      */
-    public function getCreateQueueName()
+    public function getCreateQueue()
     {
-        return $this->createQueueName;
+        if (!$this->createQueue instanceof QueueOptions) {
+            $this->createQueue = new QueueOptions(array('name' => 'create-item'));
+        }
+
+        return $this->createQueue;
     }
 
     /**
-     * @param string $completeQueueName
+     * @param array $completeQueue
      */
-    public function setCompleteQueueName($completeQueueName)
+    public function setCompleteQueue(array $completeQueue)
     {
-        $this->completeQueueName = $completeQueueName;
+        $this->completeQueue = new QueueOptions($completeQueue);
     }
 
     /**
-     * @return string
+     * @return QueueOptions
      */
-    public function getCompleteQueueName()
+    public function getCompleteQueue()
     {
-        return $this->completeQueueName;
+        if (!$this->completeQueue instanceof QueueOptions) {
+            $this->completeQueue = new QueueOptions(array('name' => 'complete-item'));
+        }
+
+        return $this->completeQueue;
     }
 }

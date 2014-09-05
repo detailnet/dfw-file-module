@@ -76,8 +76,27 @@ return array(
     'detail_file' => array(
         'background_drivers' => array(
             'bernard' => array(
-                'create_queue_name' => 'create-item',
-                'complete_queue_name' => 'complete-item',
+                'create_queue' => array(
+                    'name' => 'create-item',
+                    'options' => array(),
+                ),
+                'complete_queue' => array(
+                    'name' => 'complete-item',
+                    'options' => array(
+                        'subscribers' => array(
+                            array(
+                                'url' => 'http://zf2skeleton.public.ivan-wolf.ngrok.com/user/apply-image',
+                                'headers' => array(
+                                    'Content-Type' => 'application/json',
+                                ),
+                            ),
+                        ),
+                        'push_type' => 'unicast',
+                        'retries' => 2,
+                        'retries_delay' => 5,
+                        'error_queue' => 'errors',
+                    ),
+                ),
                 'messenger' => 'bernard.messenger.detail_file',
             ),
         ),

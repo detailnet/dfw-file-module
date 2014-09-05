@@ -22,9 +22,18 @@ class BernardDriverFactory implements FactoryInterface
         /** @var \Detail\Bernard\Message\Messenger $messenger */
         $messenger = $serviceLocator->get($options->getMessenger());
 
+        $createQueueOptions = $options->getCreateQueue();
+        $completeQueueOptions = $options->getCompleteQueue();
+
         $driver = new BernardDriver($messenger);
-        $driver->setCreateQueueName($options->getCreateQueueName());
-        $driver->setCompleteQueueName($options->getCompleteQueueName());
+        $driver->setCreateQueueName($createQueueOptions->getName());
+        $driver->setCompleteQueueName($completeQueueOptions->getName());
+        $driver->setQueueOptions(
+            array(
+                $createQueueOptions->getName() => $createQueueOptions->getOptions(),
+                $completeQueueOptions->getName() => $completeQueueOptions->getOptions(),
+            )
+        );
 
         return $driver;
     }
