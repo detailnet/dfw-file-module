@@ -83,18 +83,18 @@ return array(
                 'complete_queue' => array(
                     'name' => 'complete-item',
                     'options' => array(
-                        'subscribers' => array(
-                            array(
-                                'url' => 'http://zf2skeleton.public.ivan-wolf.ngrok.com/user/apply-image',
-                                'headers' => array(
-                                    'Content-Type' => 'application/json',
-                                ),
-                            ),
-                        ),
-                        'push_type' => 'unicast',
-                        'retries' => 2,
-                        'retries_delay' => 5,
-                        'error_queue' => 'errors',
+//                        'subscribers' => array(
+//                            array(
+//                                'url' => 'http://localhost/user/apply-image', // Probably won't work (local config required)
+//                                'headers' => array(
+//                                    'Content-Type' => 'application/json',
+//                                ),
+//                            ),
+//                        ),
+//                        'push_type' => 'unicast',
+//                        'retries' => 2,
+//                        'retries_delay' => 5,
+//                        'error_queue' => 'errors',
                     ),
                 ),
                 'messenger' => 'bernard.messenger.detail_file',
