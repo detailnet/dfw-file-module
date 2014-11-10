@@ -5,7 +5,6 @@ namespace Detail\File\Factory\Service;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use ProxyManager\Factory\LazyLoadingValueHolderFactory;
 use ProxyManager\Proxy\LazyLoadingInterface;
 
 use Detail\File\Exception\ConfigException;
@@ -59,7 +58,8 @@ class RepositoryServiceFactory implements FactoryInterface
         }
 
         if ($repository->getUseProxy()) {
-            $lazyLoadingFactory = new LazyLoadingValueHolderFactory();
+            /** @var \ProxyManager\Factory\LazyLoadingValueHolderFactory $lazyLoadingFactory */
+            $lazyLoadingFactory = $serviceLocator->get('ProxyManager\Factory\LazyLoadingValueHolderFactory');
             $initializer = function (& $wrappedObject, LazyLoadingInterface $proxy, $method, array $parameters, & $initializer) use (
                 $factory, $serviceLocator, $name, $repository
             ) {
