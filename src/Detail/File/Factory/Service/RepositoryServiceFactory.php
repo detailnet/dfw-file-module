@@ -59,7 +59,7 @@ class RepositoryServiceFactory implements FactoryInterface
         }
 
         if ($repository->getUseProxy()) {
-            $lazyLoadingfactory = new LazyLoadingValueHolderFactory();
+            $lazyLoadingFactory = new LazyLoadingValueHolderFactory();
             $initializer = function (& $wrappedObject, LazyLoadingInterface $proxy, $method, array $parameters, & $initializer) use (
                 $factory, $serviceLocator, $name, $repository
             ) {
@@ -69,7 +69,7 @@ class RepositoryServiceFactory implements FactoryInterface
                 return true; // confirm that initialization occurred correctly
             };
 
-            return $lazyLoadingfactory->createProxy($factory->getRepositoryClass(), $initializer);
+            return $lazyLoadingFactory->createProxy($factory->getRepositoryClass(), $initializer);
         } else {
             return $factory->createRepository($serviceLocator, $name, $repository->getOptions());
         }

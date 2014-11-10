@@ -47,7 +47,7 @@ class RepositoryFactory implements
         if (!class_exists($repositoryClass)) {
             throw new ConfigException(
                 sprintf(
-                    'Invalid save repository class "%s" specified in "class"; ' .
+                    'Invalid repository class "%s" specified in "class"; ' .
                     'must be a valid class name',
                     $repositoryClass
                 )
