@@ -24,6 +24,11 @@ class ModuleOptions extends AbstractOptions
     /**
      * @var array
      */
+    protected $repositoryFactories = array();
+
+    /**
+     * @var array
+     */
     protected $storageFactories = array();
 
     /**
@@ -89,6 +94,22 @@ class ModuleOptions extends AbstractOptions
     public function setBackgroundDrivers(array $backgroundDrivers)
     {
         $this->backgroundDrivers = $backgroundDrivers;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRepositoryFactories()
+    {
+        return $this->repositoryFactories;
+    }
+
+    /**
+     * @param array $repositoryFactories
+     */
+    public function setRepositoryFactories(array $repositoryFactories)
+    {
+        $this->repositoryFactories = $repositoryFactories;
     }
 
     /**

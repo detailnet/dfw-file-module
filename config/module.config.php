@@ -48,6 +48,15 @@ return array(
         ),
         'invokables' => array(
             'Detail\File\BackgroundProcessing\Message\MessageFactory' => 'Detail\File\BackgroundProcessing\Message\MessageFactory',
+            'Detail\File\Factory\Repository\RepositoryFactory'        => 'Detail\File\Factory\Repository\RepositoryFactory',
+            'Detail\File\Factory\Resolver\PrefixResolverFactory'      => 'Detail\File\Factory\Resolver\PrefixResolverFactory',
+            'Detail\File\Factory\Resolver\StorageResolverFactory'     => 'Detail\File\Factory\Resolver\StorageResolverFactory',
+            'Detail\File\Factory\Storage\GaufretteStorageFactory'     => 'Detail\File\Factory\Storage\GaufretteStorageFactory',
+        ),
+        'delegators' => array(
+            'Detail\File\Service\RepositoryService' => array(
+                'Zend\ServiceManager\Proxy\LazyServiceFactory'
+            ),
         ),
         'factories' => array(
             'Detail\File\BackgroundProcessing\Bernard\Receiver\CreateItemReceiver' => 'Detail\File\Factory\BackgroundProcessing\Bernard\Receiver\CreateItemReceiverFactory',
@@ -62,6 +71,11 @@ return array(
             // Message factories are primarily used for Detail\Bernard\Message\Messenger.
             // We want each Messenger to have it's own factory.
             'Detail\File\BackgroundProcessing\Message\MessageFactory' => false,
+        ),
+    ),
+    'lazy_services' => array(
+        'class_map' => array(
+            'Detail\File\Service\RepositoryService' => 'Detail\File\Service\RepositoryService',
         ),
     ),
     'controllers' => array(
@@ -99,6 +113,9 @@ return array(
                 ),
                 'messenger' => 'bernard.messenger.detail_file',
             ),
+        ),
+        'repository_factories' => array(
+            'default' => 'Detail\File\Factory\Repository\RepositoryFactory',
         ),
         // Type/class mapping for the storage factories
         'storage_factories' => array(
