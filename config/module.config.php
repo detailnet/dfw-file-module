@@ -53,11 +53,11 @@ return array(
             'Detail\File\Factory\Resolver\StorageResolverFactory'     => 'Detail\File\Factory\Resolver\StorageResolverFactory',
             'Detail\File\Factory\Storage\GaufretteStorageFactory'     => 'Detail\File\Factory\Storage\GaufretteStorageFactory',
         ),
-        'delegators' => array(
-            'Detail\File\Service\RepositoryService' => array(
-                'Zend\ServiceManager\Proxy\LazyServiceFactory'
-            ),
-        ),
+//        'delegators' => array(
+//            'Detail\File\Service\RepositoryService' => array(
+//                'Zend\ServiceManager\Proxy\LazyServiceFactory'
+//            ),
+//        ),
         'factories' => array(
             'Detail\File\BackgroundProcessing\Bernard\Receiver\CreateItemReceiver' => 'Detail\File\Factory\BackgroundProcessing\Bernard\Receiver\CreateItemReceiverFactory',
             'Detail\File\BackgroundProcessing\Driver\Bernard\BernardDriver'        => 'Detail\File\Factory\BackgroundProcessing\Driver\BernardDriverFactory',
@@ -73,11 +73,11 @@ return array(
             'Detail\File\BackgroundProcessing\Message\MessageFactory' => false,
         ),
     ),
-    'lazy_services' => array(
-        'class_map' => array(
-            'Detail\File\Service\RepositoryService' => 'Detail\File\Service\RepositoryService',
-        ),
-    ),
+//    'lazy_services' => array(
+//        'class_map' => array(
+//            'Detail\File\Service\RepositoryService' => 'Detail\File\Service\RepositoryService',
+//        ),
+//    ),
     'controllers' => array(
         'initializers' => array(
         ),

@@ -15,4 +15,11 @@ interface RepositoryFactoryInterface
      * @return \Detail\File\Repository\RepositoryInterface
      */
     public function createRepository(ServiceLocatorInterface $serviceLocator, $name, array $config);
-} 
+
+    /**
+     * Get repository class name.
+     *
+     * @return string
+     */
+    public function getRepositoryClass();
+}

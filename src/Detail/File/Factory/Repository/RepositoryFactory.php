@@ -11,13 +11,25 @@ use Detail\File\Factory\Storage\StorageFactoryInterface;
 use Detail\File\Options\Repository\RepositoryOptions;
 use Detail\File\Options\ResolverOptions;
 use Detail\File\Options\StorageOptions;
-use Detail\File\Repository\Repository;
 use Detail\File\Resolver\ResolverAwareInterface;
 use Detail\File\Storage\StorageAwareInterface;
 
 class RepositoryFactory implements
     RepositoryFactoryInterface
 {
+    /**
+     * @var string
+     */
+    protected $repositoryClass = 'Detail\File\Repository\Repository';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRepositoryClass()
+    {
+        return $this->repositoryClass;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -30,6 +42,17 @@ class RepositoryFactory implements
         $resolverFactories = $moduleOptions->getResolverFactories();
 
         $repositoryOptions = new RepositoryOptions($config);
+        $repositoryClass = $this->getRepositoryClass();
+
+        if (!class_exists($repositoryClass)) {
+            throw new ConfigException(
+                sprintf(
+                    'Invalid save repository class "%s" specified in "class"; ' .
+                    'must be a valid class name',
+                    $repositoryClass
+                )
+            );
+        }
 
         /** @todo Support derivatives */
 
@@ -41,8 +64,7 @@ class RepositoryFactory implements
 
         $storage = $this->createStorage($serviceLocator, $storageFactories, $storageOptions);
 
-        /** @todo Support other implementations of RepositoryInterface */
-        $repository = new Repository($name, $storage);
+        $repository = new $repositoryClass($name, $storage);
 
         if ($repository instanceof BackgroundProcessingRepositoryInterface) {
             /** @var \Detail\File\BackgroundProcessing\Driver\DriverInterface $driver */
