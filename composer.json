@@ -1,0 +1,68 @@
+{
+    "name": "detailnet/dfw-file-module",
+    "description": "Zend Framework 2 Module for dfw-file",
+    "type": "library",
+    "keywords": [
+        "dfw",
+        "detailnet",
+        "file",
+        "zf2",
+        "module"
+    ],
+    "homepage": "https://github.com/detailnet/dfw-file-module/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivan Wolf",
+            "email": "ivan.wolf@detailnet.ch"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "psr/log": "~1.0",
+        "ocramius/proxy-manager": "~0.5",
+        "zendframework/zend-loader": "2.*",
+        "zendframework/zend-modulemanager": "2.*",
+        "zendframework/zend-mvc": "2.*",
+        "zendframework/zend-servicemanager": "2.*",
+        "detailnet/dfw-core": "dev-master",
+        "detailnet/dfw-log": "dev-master",
+        "detailnet/dfw-file": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.3.5",
+        "zendframework/zend-http": "2.*",
+        "knplabs/gaufrette": "0.1.*",
+        "league/flysystem": "0.3.*",
+        "detailnet/dfw-bernard": "dev-master",
+        "detailnet/bernard-module": "dev-master",
+        "detailnet/gaufrette-module": "dev-master"
+    },
+    "suggest": {
+        "knplabs/gaufrette": "For usage of Gaufrette based storage",
+        "detailnet/gaufrette-module": "For usage of Gaufrette based storage",
+        "league/flysystem": "For usage of Flysystem based storage"
+    },
+    "autoload": {
+        "psr-0": {
+            "Detail\\File\\": "src/",
+            "DetailTest\\File\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    },
+    "archive": {
+        "exclude": [
+            "!vendor",
+            "tests",
+            "*phpunit.xml",
+            ".travis.yml",
+            "build.xml",
+            "build.properties",
+            "composer.phar"
+        ]
+    }
+}

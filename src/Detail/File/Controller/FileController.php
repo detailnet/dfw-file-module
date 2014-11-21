@@ -7,7 +7,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Http\Response as Response;
 
 use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LogLevel;
+//use Psr\Log\LogLevel;
 
 use Detail\File\Exception\InvalidParamException;
 use Detail\File\Exception\ItemNotFoundException;
