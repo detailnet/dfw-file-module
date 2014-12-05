@@ -18,25 +18,25 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.4.0",
         "psr/log": "~1.0",
         "ocramius/proxy-manager": "~0.5",
         "zendframework/zend-loader": "2.*",
         "zendframework/zend-modulemanager": "2.*",
         "zendframework/zend-mvc": "2.*",
         "zendframework/zend-servicemanager": "2.*",
-        "detailnet/dfw-core": "dev-master",
-        "detailnet/dfw-log": "dev-master",
-        "detailnet/dfw-file": "dev-master"
+        "detailnet/dfw-core": "0.1.1",
+        "detailnet/dfw-log": "0.1.1",
+        "detailnet/dfw-file": "0.1.1"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.3.5",
         "zendframework/zend-http": "2.*",
         "knplabs/gaufrette": "0.1.*",
         "league/flysystem": "0.3.*",
-        "detailnet/dfw-bernard": "dev-master",
-        "detailnet/bernard-module": "dev-master",
-        "detailnet/gaufrette-module": "dev-master"
+        "detailnet/dfw-bernard": "0.1.1",
+        "detailnet/bernard-module": "0.1.1",
+        "detailnet/gaufrette-module": "0.1.1"
     },
     "suggest": {
         "knplabs/gaufrette": "For usage of Gaufrette based storage",
@@ -45,13 +45,17 @@
     },
     "autoload": {
         "psr-0": {
-            "Detail\\File\\": "src/",
+            "Detail\\File\\": "src/"
+        }
+    },
+	"autoload-dev": {
+        "psr-0": {
             "DetailTest\\File\\": "tests/"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1.x-dev"
+            "dev-master": "1.x-dev"
         }
     },
     "archive": {
