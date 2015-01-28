@@ -60,8 +60,17 @@ class RepositoryServiceFactory implements FactoryInterface
         if ($repository->getUseProxy()) {
             /** @var \ProxyManager\Factory\LazyLoadingValueHolderFactory $lazyLoadingFactory */
             $lazyLoadingFactory = $serviceLocator->get('ProxyManager\Factory\LazyLoadingValueHolderFactory');
-            $initializer = function (& $wrappedObject, LazyLoadingInterface $proxy, $method, array $parameters, & $initializer) use (
-                $factory, $serviceLocator, $name, $repository
+            $initializer = function (
+                &$wrappedObject,
+                LazyLoadingInterface $proxy,
+                $method,
+                array $parameters,
+                &$initialize
+            ) use (
+                $factory,
+                $serviceLocator,
+                $name,
+                $repository
             ) {
                 $initializer   = null; // disable initialization
                 $wrappedObject = $factory->createRepository($serviceLocator, $name, $repository->getOptions());

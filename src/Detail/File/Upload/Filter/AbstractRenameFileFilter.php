@@ -42,7 +42,7 @@ abstract class AbstractRenameFileFilter extends RenameUploadFilter implements
 
             $uploadData = $value;
             $sourceFile = $value['tmp_name'];
-        } else{
+        } else {
             $uploadData = array(
                 'tmp_name' => $value,
                 'name'     => $value,

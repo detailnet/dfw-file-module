@@ -14,4 +14,4 @@ interface ResolverFactoryInterface
      * @return \Detail\File\Resolver\ResolverInterface
      */
     public function createResolver(ServiceLocatorInterface $serviceLocator, array $config);
-} 
+}

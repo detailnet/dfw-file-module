@@ -63,7 +63,9 @@ class RepositoryTargetedFileFilter extends AbstractRenameFileFilter
                 sprintf(
                     "File '%s' could not be saved. An error occurred while processing the file.",
                     $targetFile
-                ), 0, $e
+                ),
+                0,
+                $e
             );
         }
 

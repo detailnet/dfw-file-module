@@ -14,4 +14,4 @@ interface StorageFactoryInterface
      * @return \Detail\File\Storage\StorageInterface
      */
     public function createStorage(ServiceLocatorInterface $serviceLocator, array $config);
-} 
+}

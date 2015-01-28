@@ -89,7 +89,9 @@ class RepositoryFactory implements
     }
 
     protected function createStorage(
-        ServiceLocatorInterface $serviceLocator, array $factories, StorageOptions $storage
+        ServiceLocatorInterface $serviceLocator,
+        array $factories,
+        StorageOptions $storage
     ) {
         if (!isset($factories[$storage->getType()])) {
             throw new ConfigException(
@@ -116,7 +118,9 @@ class RepositoryFactory implements
     }
 
     protected function createResolver(
-        ServiceLocatorInterface $serviceLocator, array $factories, ResolverOptions $resolver
+        ServiceLocatorInterface $serviceLocator,
+        array $factories,
+        ResolverOptions $resolver
     ) {
         if (!isset($factories[$resolver->getType()])) {
             throw new ConfigException(

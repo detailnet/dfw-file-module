@@ -4,8 +4,8 @@ namespace Detail\File\Factory\Resolver;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use Detail\File\Resolver\StorageResolver as Resolver;
 //use Detail\File\Options\Resolver\StorageResolverOptions as Options;
+use Detail\File\Resolver\StorageResolver as Resolver;
 
 class StorageResolverFactory implements
     ResolverFactoryInterface
